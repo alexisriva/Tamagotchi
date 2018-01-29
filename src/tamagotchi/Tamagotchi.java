@@ -20,7 +20,7 @@ public class Tamagotchi extends Application {
     private static GameSceneOrganizer gameScene;
     private static FoodShopOrganizer shopScene;
     private static Scene scene;
-//    private static Thread game;
+    private static Thread game;
     
     @Override
     public void start(Stage primaryStage) {
@@ -47,8 +47,8 @@ public class Tamagotchi extends Application {
     public static void changeGameScene() {
         gameScene = new GameSceneOrganizer();
         scene.setRoot(gameScene.getRoot());
-//        game = new Thread(gameScene);
-//        game.start();
+        game = new Thread(gameScene);
+        game.start();
     }
     
     public static void changeShopScene() {

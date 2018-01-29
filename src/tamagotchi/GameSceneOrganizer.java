@@ -6,6 +6,7 @@
 package tamagotchi;
 
 import java.util.Timer;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -21,31 +22,33 @@ import javafx.scene.layout.VBox;
  *
  * @author USER
  */
-class GameSceneOrganizer {
+class GameSceneOrganizer implements Runnable {
     private BorderPane root;
     private static Player player;
     private static Pet pet;
+    private Label hunger;
+    private Label happiness;    
+    private Label money;
+    private Label clean;
+    
     
     public GameSceneOrganizer() {
         root = new BorderPane();
         root.setId("rootGame");
         
-        setUpPet();
+        pet = PickerSceneOrganizer.getPet();
+        Pane petAvatar = new Pane();
+        pet.setRoot(petAvatar);
         
         setUpPlayerInfo();
         setUpPetInfo();
         
-//        Label lbl = new Label("HOLA!");
+        root.setBottom(petAvatar);
     }
     
-    public void setUpPet() {
-        pet = PickerSceneOrganizer.getPet();
-        Pane petAvatar = new Pane();
-        pet.setRoot(petAvatar);
+    public void setUpPetAnimation() {
         Thread petThread = new Thread(pet);
         petThread.start();
-        
-        root.setBottom(petAvatar);
     }
     
     public void setUpPlayerInfo() {
@@ -77,15 +80,12 @@ class GameSceneOrganizer {
     public void setUpPetInfo() {
         VBox petInfo = new VBox();
         
-        Label hunger = new Label("Hunger: " + String.valueOf(pet.getHunger()));
-        Label happiness = new Label("Happiness: " + String.valueOf(pet.getHappiness()));
-        Label money = new Label("Money: " + String.valueOf(pet.getMoney()));
-        Label clean = new Label("Clean: " + String.valueOf(pet.getClean()));
+        hunger = new Label("Hunger: " + String.valueOf(pet.getHunger()));
+        happiness = new Label("Happiness: " + String.valueOf(pet.getHappiness()));
+        money = new Label("Money: " + String.valueOf(pet.getMoney()));
+        clean = new Label("Clean: " + String.valueOf(pet.getClean()));
         petInfo.getChildren().addAll(hunger, happiness, money, clean);
         petInfo.setAlignment(Pos.TOP_CENTER);
-        
-        Timer timer = new Timer();
-        timer.schedule(new LifeControl(pet), 0, Constants.SECONDSTODECREASE*1000);
         
         root.setLeft(petInfo);
     }
@@ -95,4 +95,27 @@ class GameSceneOrganizer {
     public static Player getPlayer() { return player; }
     
     public static Pet getPet() { return pet; }
+    
+    public void run() {
+        Platform.runLater(() -> { setUpPetAnimation(); });
+        try {Thread.sleep(1000);} 
+        catch (InterruptedException ex){}
+        Platform.runLater(() -> {
+            Timer timer = new Timer();
+            timer.schedule(new LifeControl(pet), 0, Constants.SECONDSTODECREASE*1000);
+        });
+        try {Thread.sleep(1000);}  
+        catch (InterruptedException ex){}
+        while (true) {
+            Platform.runLater(() -> {
+                hunger = new Label("Hunger: " + String.valueOf(pet.getHunger()));
+                happiness = new Label("Happiness: " + String.valueOf(pet.getHappiness()));
+                money = new Label("Money: " + String.valueOf(pet.getMoney()));
+                clean = new Label("Clean: " + String.valueOf(pet.getClean()));
+            });
+            System.out.println(String.valueOf(pet.getHunger()));
+            try {Thread.sleep(1000);} 
+            catch (InterruptedException ex){}
+        }
+    }
 }
