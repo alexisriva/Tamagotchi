@@ -34,6 +34,9 @@ class GameSceneOrganizer {
         
         setUpPlayerInfo();
         setUpPetInfo();
+        this.root.setStyle("-fx-background-image: url(/tamagotchi/house.jpg);" + 
+                "-fx-background-position: center center; ");
+        
         
 //        Label lbl = new Label("HOLA!");
     }
@@ -43,6 +46,7 @@ class GameSceneOrganizer {
         Pane petAvatar = new Pane();
         pet.setRoot(petAvatar);
         Thread petThread = new Thread(pet);
+        petThread.setDaemon(true);
         petThread.start();
         
         root.setBottom(petAvatar);
@@ -86,6 +90,7 @@ class GameSceneOrganizer {
         
         Timer timer = new Timer();
         timer.schedule(new LifeControl(pet), 0, Constants.SECONDSTODECREASE*1000);
+        
         
         root.setLeft(petInfo);
     }
