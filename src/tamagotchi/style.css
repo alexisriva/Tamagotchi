@@ -1,0 +1,110 @@
+/*
+    Hoja de estilos que contiene el diseño de los diversos componentes
+    graficos del proyecto como los son botones, labels, objetos sceneOrganizers,
+    entre otros.
+*/
+
+/*@font-face
+{
+    font-family: "Pixeled";
+    src: url(media/Pixeled.ttf);
+}*/
+
+.button
+{
+    -fx-pref-width: 180px;
+    -fx-pref-height: 30px;
+    -fx-font-size: 12px;
+    /*-fx-font-family: "Pixeled";*/
+    -fx-background-color: #00a220;
+    -fx-border-width: 3px;
+    -fx-border-color: #00e12d;
+    -fx-border-radius: 5px;
+}
+
+.button:hover
+{
+    -fx-border-color: #999999;
+    -fx-background-color: #999999;
+    -fx-scale-x: 1.5;
+    -fx-scale-y: 1.5;
+}
+
+.label
+{
+    -fx-font-size: 20px;
+    /*-fx-font-family: "Pixeled";*/
+    -fx-text-fill: white;
+}
+
+#infoJugador
+{
+    -fx-font-size: 12px;
+    /*-fx-font-family: "Pixeled";*/
+    -fx-text-fill: white;
+}
+
+#registroPuntaje
+{
+    -fx-font-size: 12px;
+    /*-fx-font-family: "Pixeled";*/
+    -fx-text-fill: white;
+}
+
+.text-field
+{
+    /*-fx-font-family: 'Pixeled';*/
+}
+
+.scroll-pane {
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.scroll-pane:focused {
+    -fx-background-insets: 0;
+}
+
+.scroll-pane .corner {
+    -fx-background-insets: 0;
+}
+
+#rootInput
+{
+    -fx-background-color: #000000;
+}
+
+#rootInfo
+{
+    -fx-background: #030100;
+    -fx-background-size: 810 610;
+    -fx-background-position: center
+}
+
+#rootMenu
+{
+    -fx-background-image: url(media/menubackground.jpeg);
+    -fx-background-size: 810 610;
+    -fx-background-position: center;
+}
+
+#rootGame
+{
+    -fx-background-image: url(house.jpg);
+    -fx-background-size: 810 610;
+    -fx-background-position: center;
+}
+
+#rootScores
+{
+    -fx-background-image: url(media/menubackground.jpeg);
+    -fx-background-size: 810 610;
+    -fx-background-position: center;
+}
+
+#rootPause
+{
+    -fx-background-image: url(media/menubackground.jpeg);
+    -fx-background-size: 810 610;
+    -fx-background-position: center;
+}
