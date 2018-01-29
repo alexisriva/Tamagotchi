@@ -12,7 +12,7 @@ import java.util.Random;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
+//import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.transform.Rotate;
 
@@ -24,18 +24,20 @@ public class Pet implements Runnable {
     private final String name;
     private final String birthDate;
     private String deathDate;
+    private int life;
     private int hunger;
     private int happiness;
     private int money;
     private int clean;
     private Pane pet;
     private Pane poop;
-    private LinkedList inventory = new LinkedList();
+    private LinkedList<Integer> inventory = new LinkedList<>();
     private ImageView imgView;
     private int i=-60;
     
     public Pet(String name) {
         this.name = name;
+        this.life = 500;
         this.hunger = 10;
         this.happiness = 10;
         this.money = 100;
@@ -96,6 +98,14 @@ public class Pet implements Runnable {
         pane.getChildren().add(poop);
         i+=10;
         
+        if (clean - 1 >=0 )
+            clean -= 1;
+        else
+            clean = 0;
+        
+        if (PetLifeControl.firstCleanZero)
+            PetLifeControl.decreseBcOfClean(this);
+        
         list.add(poop);
     }
     
@@ -104,6 +114,10 @@ public class Pet implements Runnable {
     public String getName() { return name; }
     
     public String getBirthInfo() { return birthDate; }
+    
+    public int getLife() { return life; }
+    
+    public void setLife(int life) { this.life = life; }
     
     public int getHunger() { return hunger; }
     
@@ -127,7 +141,7 @@ public class Pet implements Runnable {
     
     public LinkedList getInventory() { return inventory; }
     
-    public void addInventory(Object o) { inventory.add(o); }
+    public void addInventory(int n) { inventory.add(n); }
     
 //    public String toString() {
 //        return name + "-" + birthDate;

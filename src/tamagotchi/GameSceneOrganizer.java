@@ -30,6 +30,7 @@ class GameSceneOrganizer implements Runnable {
     private static Player player;
     private static Pet pet;
     private Pane petContainer;
+    private Label life;
     private Label hunger;
     private Label happiness;
     private Label money;
@@ -90,12 +91,13 @@ class GameSceneOrganizer implements Runnable {
 
     public void setUpPetInfo() {
         VBox petInfo = new VBox();
-
+        
+        life = new Label("Life: " + String.valueOf(pet.getLife()));
         hunger = new Label("Hunger: " + String.valueOf(pet.getHunger()));
         happiness = new Label("Happiness: " + String.valueOf(pet.getHappiness()));
         money = new Label("Money: " + String.valueOf(pet.getMoney()));
         clean = new Label("Clean: " + String.valueOf(pet.getClean()));
-        petInfo.getChildren().addAll(hunger, happiness, money, clean);
+        petInfo.getChildren().addAll(life, hunger, happiness, money, clean);
         petInfo.setAlignment(Pos.TOP_CENTER);
 
         root.setLeft(petInfo);
@@ -106,7 +108,7 @@ class GameSceneOrganizer implements Runnable {
 
         Button clean = new Button("Clean pet");
         clean.setOnMouseClicked((event) -> {
-            player.cleanPet(poopStack);
+            player.cleanPet(poopStack, petContainer);
         });
 
         Button feed = new Button("Feed pet");
@@ -115,6 +117,10 @@ class GameSceneOrganizer implements Runnable {
         });
 
         Button play = new Button("Play");
+        play.setOnMouseClicked((event) -> {
+            player.playWithPet();
+        });
+        
         playerActions.getChildren().addAll(clean, feed, play);
         playerActions.setAlignment(Pos.TOP_CENTER);
 
@@ -137,23 +143,29 @@ class GameSceneOrganizer implements Runnable {
         Platform.runLater(() -> {
             setUpPetAnimation();
             Timer timer = new Timer();
-            timer.schedule(new LifeControl(pet), Constants.SECONDSTODECREASE * 1000, Constants.SECONDSTODECREASE * 1000);
+            timer.schedule(new PetLifeControl(pet), Constants.SECONDSTODECREASELIFE*1000, Constants.SECONDSTODECREASELIFE*1000);
+            timer.schedule(new PetStatusControl(pet), Constants.SECONDSTODECREASESTATUS * 1000, Constants.SECONDSTODECREASESTATUS * 1000);
+            int rnd = new Random().nextInt(5) + 1;
+            System.out.println(rnd);
+            timer.schedule(new CleanControl(pet, petContainer, poopStack), 60000, rnd*60*1000);
         });
-        try { Thread.sleep(1000);}
+        try { Thread.sleep(1000); }
         catch (InterruptedException ex) {}
         while (true) {
             Platform.runLater(() -> {
+                life.setText("Life: " + String.valueOf(pet.getLife()));
                 hunger.setText("Hunger: " + String.valueOf(pet.getHunger()));
                 happiness.setText("Happiness: " + String.valueOf(pet.getHappiness()));
                 money.setText("Money: " + String.valueOf(pet.getMoney()));
                 clean.setText("Clean: " + String.valueOf(pet.getClean()));
                 inventory.setText("Inventory items: " + String.valueOf(pet.getInventory().size()));
-                Timer timer2 = new Timer();
-                timer2.schedule(new CleanControl(pet, petContainer, poopStack), 0, (new Random().nextInt(5) + 1)*60*1000);
                 System.out.println(poopStack);
                 System.out.println(poopStack.size());
+                PetLifeControl.decreaseBcOfHunger(pet);
+                PetLifeControl.decreaseBcOfHappiness(pet);
+                PetLifeControl.decreseBcOfClean(pet);
             });
-            try {Thread.sleep(1000);} 
+            try { Thread.sleep(1000); } 
             catch (InterruptedException ex){}
         }
     }

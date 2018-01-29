@@ -27,7 +27,7 @@ public class CleanControl extends TimerTask {
     
     public void run () {
         Platform.runLater(() -> {
-        pet.poop(pane, list);
+            pet.poop(pane, list);
             System.out.println("poop");
         });
     }

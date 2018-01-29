@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
 
 /**
  *
@@ -29,7 +30,9 @@ public class FoodShopOrganizer {
         back.setAlignment(Pos.CENTER_LEFT);
         
         VBox container = new VBox();
+        container.setAlignment(Pos.CENTER);
         HBox innerContainer = new HBox();
+        innerContainer.setAlignment(Pos.CENTER);
         Label pizza = new Label("Pizza");
         Button buy = new Button("Buy");
         buy.setOnMouseClicked((event) -> { 
@@ -38,7 +41,6 @@ public class FoodShopOrganizer {
         });
         innerContainer.getChildren().addAll(pizza, buy);
         container.getChildren().add(innerContainer);
-        container.setAlignment(Pos.CENTER);
         
         root.setTop(back);
         root.setCenter(container);

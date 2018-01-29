@@ -10,7 +10,8 @@ package tamagotchi;
  * @author USER
  */
 public final class Constants {
-    public static int SECONDSTODECREASE = 60;
+    public static int SECONDSTODECREASESTATUS = 60;
+    public static int SECONDSTODECREASELIFE = 500*60*60; //500*60*60
     public static int MAXHUNGER = 10;
     public static int MAXHAPPINESS = 10;
     public static int MAXCLEAN = 10;
