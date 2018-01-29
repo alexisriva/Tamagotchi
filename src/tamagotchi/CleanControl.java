@@ -5,6 +5,7 @@
  */
 package tamagotchi;
 
+import java.util.LinkedList;
 import java.util.TimerTask;
 import javafx.scene.layout.Pane;
 
@@ -15,13 +16,15 @@ import javafx.scene.layout.Pane;
 public class CleanControl extends TimerTask {
     private Pet pet;
     private Pane pane;
+    private LinkedList list;
     
-    public CleanControl(Pet pet, Pane pane) {
+    public CleanControl(Pet pet, Pane pane, LinkedList list) {
         this.pet = pet;
         this.pane = pane;
+        this.list = list;
     }
     
     public void run () {
-        pet.poop(pane);
+        pet.poop(pane, list);
     }
 }

@@ -147,7 +147,7 @@ class GameSceneOrganizer implements Runnable {
             });
             Platform.runLater(() -> {
                 Timer timer = new Timer();
-                timer.schedule(new CleanControl(pet, petContainer), 0, (new Random().nextInt(5)+1)*1000);
+                timer.schedule(new CleanControl(pet, petContainer, poopStack), 0, (new Random().nextInt(5)+1)*1000);
             });
             try {Thread.sleep(1000);} 
             catch (InterruptedException ex){}

@@ -82,7 +82,7 @@ public class Pet implements Runnable {
         }
     }
     
-    public void poop(Pane pane) {
+    public void poop(Pane pane, LinkedList list) {
         poop = new Pane();
         Image img = new Image(Constants.POOPIMGSRC);
         ImageView poopView = new ImageView(img);
