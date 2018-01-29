@@ -48,7 +48,9 @@ public class Tamagotchi extends Application {
         gameScene = new GameSceneOrganizer();
         scene.setRoot(gameScene.getRoot());
         game = new Thread(gameScene);
+        game.setDaemon(true);
         game.start();
+        
     }
     
     public static void changeShopScene() {

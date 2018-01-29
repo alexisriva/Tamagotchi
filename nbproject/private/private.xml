@@ -3,11 +3,19 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/USER/Desktop/Alexis/U/Tamagotchi/src/tamagotchi/Player.java</file>
             <file>file:/C:/Users/USER/Desktop/Alexis/U/Tamagotchi/src/tamagotchi/Tamagotchi.java</file>
             <file>file:/C:/Users/USER/Desktop/Alexis/U/Tamagotchi/src/tamagotchi/GameSceneOrganizer.java</file>
             <file>file:/C:/Users/USER/Desktop/Alexis/U/Tamagotchi/src/tamagotchi/FoodShopOrganizer.java</file>
             <file>file:/C:/Users/USER/Desktop/Alexis/U/Tamagotchi/src/tamagotchi/Pet.java</file>
+=======
+            <file>file:/Users/steevenrodriguez/Desktop/Tamagotchi/src/tamagotchi/CleanControl.java</file>
+            <file>file:/Users/steevenrodriguez/Desktop/Tamagotchi/src/tamagotchi/GameSceneOrganizer.java</file>
+            <file>file:/Users/steevenrodriguez/Desktop/Tamagotchi/src/tamagotchi/Pet.java</file>
+            <file>file:/Users/steevenrodriguez/Desktop/Tamagotchi/src/tamagotchi/Tamagotchi.java</file>
+            <file>file:/Users/steevenrodriguez/Desktop/Tamagotchi/src/tamagotchi/Constants.java</file>
+>>>>>>> 764a699539c5f4a80fb57d74245221f6a08df06b
         </group>
     </open-files>
 </project-private>

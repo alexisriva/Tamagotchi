@@ -27,7 +27,7 @@ class Player {
         poops.forEach((pane) -> {
             poops.remove(pane);
         });
-        pet.setClean(10);
+        pet.setClean(Constants.MAXCLEAN);
     }
     
     public void playWithPet() {
@@ -35,7 +35,7 @@ class Player {
     }
     
     public void feedPet() {
-        if (pet.getHunger() < 10 && pet.getInventory().size() > 0) {
+        if (pet.getHunger() < Constants.MAXHUNGER && pet.getInventory().size() > 0) {
             pet.getInventory().remove(0); //valor de prueba
             pet.setHunger(pet.getHunger() + 2); //valor de prueba
         } else { System.out.println("Your pet cant be feed"); }
