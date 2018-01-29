@@ -42,12 +42,16 @@ class GameSceneOrganizer implements Runnable {
         
         setUpPlayerInfo();
         setUpPetInfo();
+        this.root.setStyle("-fx-background-image: url(/tamagotchi/house.jpg);" + 
+                "-fx-background-position: center center; ");
+        
         
         root.setBottom(petAvatar);
     }
     
     public void setUpPetAnimation() {
         Thread petThread = new Thread(pet);
+        petThread.setDaemon(true);
         petThread.start();
     }
     

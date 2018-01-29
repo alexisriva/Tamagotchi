@@ -8,11 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-<<<<<<< HEAD
-    <jar href="Tamagotchi.jar" size="518225" download="eager" />
-=======
     <jar href="Tamagotchi.jar" size="506083" download="eager" />
->>>>>>> 95a8aa9727f452ac6e846bc4e7acfb72969af013
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="Tamagotchi" >
     <param name="requiredFXVersion" value="8.0+"/>
