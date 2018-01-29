@@ -6,6 +6,7 @@
 package tamagotchi;
 
 import java.util.TimerTask;
+import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 
 /**
@@ -22,6 +23,9 @@ public class CleanControl extends TimerTask {
     }
     
     public void run () {
+        Platform.runLater(() -> {
         pet.poop(pane);
+            System.out.println("poop");
+        });
     }
 }

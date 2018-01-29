@@ -32,6 +32,7 @@ public class Pet implements Runnable {
     private Pane poop;
     private LinkedList inventory = new LinkedList();
     private ImageView imgView;
+    private int i=-60;
     
     public Pet(String name) {
         this.name = name;
@@ -86,12 +87,14 @@ public class Pet implements Runnable {
         poop = new Pane();
         Image img = new Image(Constants.POOPIMGSRC);
         ImageView poopView = new ImageView(img);
-        poopView.setFitHeight(20);
-        poopView.setFitWidth(20);
+        poopView.setFitHeight(40);
+        poopView.setFitWidth(40);
         poop.getChildren().add(poopView);
-        
-        pane.setLayoutX(new Random().nextInt(500)+100);
+        poop.setTranslateY(80);
+        poop.setLayoutX(new Random().nextInt(500)+100);
+        poop.setTranslateX(i);
         pane.getChildren().add(poop);
+        i+=10;
     }
     
     public void setRoot(Pane root) { root.getChildren().add(pet); }
