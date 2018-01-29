@@ -7,9 +7,12 @@ package tamagotchi;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.LinkedList;
+import java.util.Random;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.transform.Rotate;
 
@@ -26,7 +29,8 @@ public class Pet implements Runnable {
     private int money;
     private int clean;
     private Pane pet;
-    
+    private Pane poop;
+    private LinkedList inventory = new LinkedList();
     private ImageView imgView;
     
     public Pet(String name) {
@@ -78,6 +82,18 @@ public class Pet implements Runnable {
         }
     }
     
+    public void poop(Pane pane) {
+        poop = new Pane();
+        Image img = new Image(Constants.POOPIMGSRC);
+        ImageView poopView = new ImageView(img);
+        poopView.setFitHeight(20);
+        poopView.setFitWidth(20);
+        poop.getChildren().add(poopView);
+        
+        pane.setLayoutX(new Random().nextInt(500)+100);
+        pane.getChildren().add(poop);
+    }
+    
     public void setRoot(Pane root) { root.getChildren().add(pet); }
     
     public String getName() { return name; }
@@ -103,6 +119,10 @@ public class Pet implements Runnable {
     public String getDeathDate() { return deathDate; }
     
     public void setDeathDate(String deadDate) { this.deathDate = deadDate; }
+    
+    public LinkedList getInventory() { return inventory; }
+    
+    public void addInventory(Object o) { inventory.add(o); }
     
 //    public String toString() {
 //        return name + "-" + birthDate;

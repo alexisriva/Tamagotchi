@@ -5,6 +5,9 @@
  */
 package tamagotchi;
 
+import java.util.LinkedList;
+import javafx.scene.layout.Pane;
+
 /**
  *
  * @author USER
@@ -18,6 +21,31 @@ class Player {
     public Player(Pet pet, String username) {
         this.pet = pet;
         this.username = username;
+    }
+    
+    public void cleanPet(LinkedList<Pane> poops) {
+        poops.forEach((pane) -> {
+            poops.remove(pane);
+        });
+        pet.setClean(10);
+    }
+    
+    public void playWithPet() {
+        
+    }
+    
+    public void feedPet() {
+        if (pet.getHunger() < 10 && pet.getInventory().size() > 0) {
+            pet.getInventory().remove(0); //valor de prueba
+            pet.setHunger(pet.getHunger() + 2); //valor de prueba
+        } else { System.out.println("Your pet cant be feed"); }
+    }
+    
+    public void buyFood(int fee) {
+        if (pet.getMoney() - fee >= 0) {
+            pet.setMoney( pet.getMoney() - fee);
+            pet.addInventory("I bought something!");
+        } else { System.out.println("Sorry, you dont have enough money"); }
     }
     
     public Pet getPet() { return pet; }

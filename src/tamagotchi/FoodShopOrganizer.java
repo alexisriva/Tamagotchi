@@ -5,7 +5,12 @@
  */
 package tamagotchi;
 
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 /**
  *
@@ -16,6 +21,27 @@ public class FoodShopOrganizer {
     
     public FoodShopOrganizer() {
         root = new BorderPane();
+        
+        Button back = new Button("Back");
+        back.setOnMouseClicked((event) -> {
+            Tamagotchi.returnGameScene();
+        });
+        back.setAlignment(Pos.CENTER_LEFT);
+        
+        VBox container = new VBox();
+        HBox innerContainer = new HBox();
+        Label pizza = new Label("Pizza");
+        Button buy = new Button("Buy");
+        buy.setOnMouseClicked((event) -> { 
+            GameSceneOrganizer.getPlayer().buyFood(20); // valor de prueba
+            System.out.println("Compra exitosa");
+        });
+        innerContainer.getChildren().addAll(pizza, buy);
+        container.getChildren().add(innerContainer);
+        container.setAlignment(Pos.CENTER);
+        
+        root.setTop(back);
+        root.setCenter(container);
     }
     
     public BorderPane getRoot() { return root; }

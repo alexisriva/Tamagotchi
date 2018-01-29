@@ -56,4 +56,8 @@ public class Tamagotchi extends Application {
         scene.setRoot(shopScene.getRoot());
     }
     
+    public static void returnGameScene() {
+        scene.setRoot(gameScene.getRoot());
+    }
+    
 }

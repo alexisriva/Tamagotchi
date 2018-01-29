@@ -18,4 +18,5 @@ public final class Constants {
     public static int MOVE = 10;
     public static int SPEED = 300;
     public static String PETIMGSRC = "/tamagotchi/doge.png";
+    public static String POOPIMGSRC = "/tamagotchi/Poop.png";
 }
