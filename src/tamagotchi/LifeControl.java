@@ -22,7 +22,6 @@ public class LifeControl extends TimerTask {
     public void run() {
         pet.setHunger(pet.getHunger()-1);
         pet.setHappiness(pet.getHappiness()-1);
-        pet.setMoney(pet.getMoney()-1);
         pet.setClean(pet.getClean()-1);
     }
 }
