@@ -11,7 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.TextAlignment;
 
 /**
  *
@@ -28,7 +27,6 @@ public class FoodShopOrganizer {
             Tamagotchi.returnGameScene();
         });
         back.setAlignment(Pos.CENTER_LEFT);
-        
         VBox container = new VBox();
         container.setAlignment(Pos.CENTER);
         HBox innerContainer = new HBox();

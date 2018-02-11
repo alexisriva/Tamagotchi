@@ -41,6 +41,7 @@ class Player {
             int value = (int) pet.getInventory().remove(0); //valor de prueba
             if (pet.getHunger() + value > Constants.MAXHUNGER)
                 pet.setHunger(Constants.MAXHUNGER);
+            
             else
                 pet.setHunger(pet.getHunger() + value); //valor de prueba
         } else { System.out.println("Your pet can't be feed"); }

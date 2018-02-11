@@ -66,6 +66,7 @@ public class Pet implements Runnable {
         imgView.setRotate(degrees);
     }
     
+    @Override
     public void run() {
         while (true) {
             try {

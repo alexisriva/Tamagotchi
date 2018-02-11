@@ -30,7 +30,8 @@ public class Tamagotchi extends Application {
 //        scene.getStylesheets().add("style.css");
         primaryStage.setTitle("Virtual Pet");
         primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
+        primaryStage.setFullScreen(true);
+        primaryStage.setResizable(true);
         primaryStage.show();
     }
 
