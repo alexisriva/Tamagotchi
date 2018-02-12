@@ -19,6 +19,7 @@ public class Tamagotchi extends Application {
     private static PickerSceneOrganizer pickerScene;
     private static GameSceneOrganizer gameScene;
     private static FoodShopOrganizer shopScene;
+    private static MiniGameOrganizer miniGameScene;
     private static Scene scene;
     private static Thread game;
     
@@ -30,7 +31,7 @@ public class Tamagotchi extends Application {
 //        scene.getStylesheets().add("style.css");
         primaryStage.setTitle("Virtual Pet");
         primaryStage.setScene(scene);
-        primaryStage.setFullScreen(true);
+        primaryStage.setFullScreen(false);
         primaryStage.setResizable(true);
         primaryStage.show();
     }
@@ -61,6 +62,10 @@ public class Tamagotchi extends Application {
     
     public static void returnGameScene() {
         scene.setRoot(gameScene.getRoot());
+    }
+    public static void changeMiniGameScene(){
+        miniGameScene = new MiniGameOrganizer();
+        scene.setRoot(miniGameScene.getRoot());
     }
     
 }

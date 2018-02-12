@@ -119,6 +119,7 @@ class GameSceneOrganizer implements Runnable {
         Button play = new Button("Play");
         play.setOnMouseClicked((event) -> {
             player.playWithPet();
+            Tamagotchi.changeMiniGameScene();
         });
         
         playerActions.getChildren().addAll(clean, feed, play);

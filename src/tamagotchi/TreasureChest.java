@@ -34,9 +34,9 @@ public class TreasureChest {
         Thread hilo = new Thread(() -> {
             try {
                 
-                while (imgPane.getLayoutX() < 400 && imgPane.getLayoutY() <= 400) {
+                while (this.imgPane.getLayoutX() < 400 && this.imgPane.getLayoutY() <= 400) {
                     Platform.runLater(() -> {
-                        imgPane.setLayoutY(imgPane.getLayoutY() + 20);
+                        this.imgPane.setLayoutY(this.imgPane.getLayoutY() + 20);
                     });
                     
                     Thread.sleep(325);
@@ -51,48 +51,6 @@ public class TreasureChest {
         
     }
 
-    /**
-     * @return the description
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * @param description the description to set
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    
-
-    /**
-     * @return the money
-     */
-    public int getMoney() {
-        return money;
-    }
-
-    /**
-     * @param money the money to set
-     */
-    public void setMoney(int money) {
-        this.money = money;
-    }
-
-    /**
-     * @return the multiplier
-     */
-    public int getMultiplier() {
-        return multiplier;
-    }
-
-    /**
-     * @param multiplier the multiplier to set
-     */
-    public void setMultiplier(int multiplier) {
-        this.multiplier = multiplier;
-    }
     
     
     
