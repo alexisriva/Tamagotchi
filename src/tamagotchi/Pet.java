@@ -5,6 +5,7 @@
  */
 package tamagotchi;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
@@ -20,7 +21,9 @@ import javafx.scene.transform.Rotate;
  *
  * @author USER
  */
-public class Pet implements Runnable {
+public class Pet implements Runnable, Serializable {
+    private static final long serialVersionUID = 2436883548017479013L;
+    
     private final String name;
     private final String birthDate;
     private String deathDate;
@@ -29,10 +32,10 @@ public class Pet implements Runnable {
     private int happiness;
     private int money;
     private int clean;
-    private Pane pet;
-    private Pane poop;
+    private transient Pane pet;
+    private transient Pane poop;
     private LinkedList<Integer> inventory = new LinkedList<>();
-    private ImageView imgView;
+    private transient ImageView imgView;
     private int i=-60;
     private boolean condicion;
     
@@ -49,11 +52,16 @@ public class Pet implements Runnable {
         this.birthDate = dtf.format(now);
         pet = new Pane();
         Image img = new Image(Constants.PETIMGSRC);
-        imgView = new ImageView(img);
-        imgView.setTranslateZ(imgView.getBoundsInLocal().getWidth() / 2.0);
-        imgView.setRotationAxis(Rotate.Y_AXIS);
+        imgView = setUpPetAvatar(img);
         pet.getChildren().add(imgView);
 //        System.out.println(this.birthDate);
+    }
+    
+    public ImageView setUpPetAvatar(Image img) {
+        ImageView imgView = new ImageView(img);
+        imgView.setTranslateZ(imgView.getBoundsInLocal().getWidth() / 2.0);
+        imgView.setRotationAxis(Rotate.Y_AXIS);
+        return imgView;
     }
     
     public void moveRight() {
@@ -72,13 +80,13 @@ public class Pet implements Runnable {
     public void run() {
         while (true) {
             try {
-                for (int i=1; i<=50; i++) {
+                for (int i=1; i<=70; i++) {
                     Platform.runLater(() -> { moveRight(); });
                     Thread.sleep(Constants.SPEED);
                 }
                 rotate(180);
                 Thread.sleep(Constants.SPEED);
-                for (int i=1; i<=50; i++) {
+                for (int i=1; i<=70; i++) {
                     Platform.runLater(() -> { moveLeft(); });
                     Thread.sleep(Constants.SPEED);
                 }
@@ -145,6 +153,15 @@ public class Pet implements Runnable {
     public LinkedList getInventory() { return inventory; }
     
     public void addInventory(int n) { inventory.add(n); }
+    
+    public void setPane(Pane pet) {
+        this.pet = pet;
+    }
+    
+    public void setImageView(ImageView imgView, Pane pet) {
+        this.imgView = imgView;
+        pet.getChildren().add(imgView);
+    }
     
 //    public String toString() {
 //        return name + "-" + birthDate;
