@@ -5,6 +5,7 @@
  */
 package tamagotchi;
 
+import java.util.concurrent.ThreadLocalRandom;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,24 +20,31 @@ public class TreasureChest {
     protected int money;
     protected int multiplier;
     protected Pane imgPane;
+    protected boolean condicion;
+    protected ImageView chestView;
     
     public TreasureChest(Pane rootPane){
+        this.condicion=true;
+        double ejeY = ThreadLocalRandom.current().nextDouble(50,180 + 1);
+        double ejeX = ThreadLocalRandom.current().nextDouble(30,650 + 1);
         this.multiplier=1;
         this.money=0;
         this.imgPane=new Pane();
         Image img = new Image(Constants.CHESTIMGSRC);
-        ImageView chestView = new ImageView(img);
-        chestView.setFitHeight(15);
-        chestView.setFitWidth(15);
+        chestView = new ImageView(img);
+        chestView.setFitHeight(40);
+        chestView.setFitWidth(40);
+        chestView.setTranslateY(ejeY);
+        chestView.setTranslateX(ejeX);
         imgPane.getChildren().add(chestView);
         rootPane.getChildren().add(imgPane);
         
         Thread hilo = new Thread(() -> {
             try {
                 
-                while (this.imgPane.getLayoutX() < 400 && this.imgPane.getLayoutY() <= 400) {
+                while (this.imgPane.getTranslateY()<= 600) {
                     Platform.runLater(() -> {
-                        this.imgPane.setLayoutY(this.imgPane.getLayoutY() + 20);
+                        this.imgPane.setTranslateY(this.imgPane.getTranslateY()+ 20);
                     });
                     
                     Thread.sleep(325);
@@ -47,6 +55,8 @@ public class TreasureChest {
                 
             }
         });
+        hilo.setDaemon(true);
+        hilo.start();
         
         
     }

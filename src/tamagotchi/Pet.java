@@ -37,8 +37,10 @@ public class Pet implements Runnable, Serializable {
     private LinkedList<Integer> inventory = new LinkedList<>();
     private transient ImageView imgView;
     private int i=-60;
+    private boolean condicion;
     
     public Pet(String name) {
+        this.condicion=true;
         this.name = name;
         this.life = 500;
         this.hunger = 10;
@@ -164,4 +166,18 @@ public class Pet implements Runnable, Serializable {
 //    public String toString() {
 //        return name + "-" + birthDate;
 //    }
+
+    /**
+     * @param condicion the condicion to set
+     */
+    public void setCondicion(boolean condicion) {
+        this.condicion = condicion;
+    }
+
+    /**
+     * @return the condicion
+     */
+    public boolean isCondicion() {
+        return condicion;
+    }
 }
