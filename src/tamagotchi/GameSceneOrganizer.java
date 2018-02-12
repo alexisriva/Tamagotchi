@@ -5,6 +5,11 @@
  */
 package tamagotchi;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.Timer;
@@ -13,6 +18,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -41,14 +47,14 @@ class GameSceneOrganizer implements Runnable {
     public GameSceneOrganizer() {
         root = new BorderPane();
         root.setId("rootGame");
+        
+//        pet = PickerSceneOrganizer.getPet();
+//        petContainer = new Pane();
+//        pet.setRoot(petContainer);
+        
+        deserializeGame();
 
-        pet = PickerSceneOrganizer.getPet();
-        petContainer = new Pane();
-        pet.setRoot(petContainer);
-
-        setUpPlayerInfo();
-        setUpPetInfo();
-        setUpPlayerActionButtons();
+//        setUpPlayerActionButtons();
 
         this.root.setStyle("-fx-background-image: url(/tamagotchi/house.jpg);"
                 + "-fx-background-position: center center; ");
@@ -63,7 +69,7 @@ class GameSceneOrganizer implements Runnable {
     }
 
     public void setUpPlayerInfo() {
-        player = PickerSceneOrganizer.getPlayer();
+//        player = PickerSceneOrganizer.getPlayer();
         GridPane playerInfo = new GridPane();
         playerInfo.setPadding(new Insets(10));
         playerInfo.getColumnConstraints().addAll(new ColumnConstraints(160),
@@ -147,12 +153,12 @@ class GameSceneOrganizer implements Runnable {
             timer.schedule(new PetLifeControl(pet), Constants.SECONDSTODECREASELIFE*1000, Constants.SECONDSTODECREASELIFE*1000);
             timer.schedule(new PetStatusControl(pet), Constants.SECONDSTODECREASESTATUS * 1000, Constants.SECONDSTODECREASESTATUS * 1000);
             int rnd = new Random().nextInt(5) + 1;
-            System.out.println(rnd);
+//            System.out.println(rnd);
             timer.schedule(new CleanControl(pet, petContainer, poopStack), 60000, rnd*60*1000);
         });
         try { Thread.sleep(1000); }
         catch (InterruptedException ex) {}
-        while (true) {
+        while (pet.getLife() > 0) {
             Platform.runLater(() -> {
                 life.setText("Life: " + String.valueOf(pet.getLife()));
                 hunger.setText("Hunger: " + String.valueOf(pet.getHunger()));
@@ -165,9 +171,66 @@ class GameSceneOrganizer implements Runnable {
                 PetLifeControl.decreaseBcOfHunger(pet);
                 PetLifeControl.decreaseBcOfHappiness(pet);
                 PetLifeControl.decreseBcOfClean(pet);
+                serializeGame(pet, player);
             });
             try { Thread.sleep(1000); } 
             catch (InterruptedException ex){}
+        }
+    }
+    
+    public void serializeGame(Pet pet, Player player) {
+        try {
+            FileOutputStream petFile = new FileOutputStream("pet.ser");
+            FileOutputStream playerFile = new FileOutputStream("player.ser");
+            
+            ObjectOutputStream petOut = new ObjectOutputStream(petFile);
+            petOut.writeObject(pet);
+            petOut.close();
+            petFile.close();
+            
+            ObjectOutputStream playerOut = new ObjectOutputStream(playerFile);
+            playerOut.writeObject(player);
+            playerOut.close();
+            playerFile.close();
+            
+            System.out.println("Objects serialized");
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+    }
+    
+    public void deserializeGame() {
+        try {
+            FileInputStream petFile = new FileInputStream("pet.ser");
+            FileInputStream playerFile = new FileInputStream("player.ser");
+            
+            ObjectInputStream petIn = new ObjectInputStream(petFile);
+            pet = (Pet) petIn.readObject();
+            Pane p = new Pane();
+            pet.setPane(p);
+            pet.setImageView(pet.setUpPetAvatar(new Image(Constants.PETIMGSRC)), p);
+            petIn.close();
+            petFile.close();
+            
+            ObjectInputStream playerIn = new ObjectInputStream(playerFile);
+            player = (Player) playerIn.readObject();
+            playerIn.close();
+            playerFile.close();
+            
+            System.out.println("Objects deserialized");
+        } catch (IOException i) {
+            System.out.println("Picker scene");
+            pet = PickerSceneOrganizer.getPet();
+            player = PickerSceneOrganizer.getPlayer();
+        } catch (ClassNotFoundException c) {
+            c.printStackTrace();
+        } finally {
+            petContainer = new Pane();
+            pet.setRoot(petContainer);
+        
+            setUpPetInfo();
+            setUpPlayerInfo();
+            setUpPlayerActionButtons();
         }
     }
 }

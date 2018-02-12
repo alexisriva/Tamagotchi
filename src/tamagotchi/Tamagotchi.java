@@ -27,12 +27,12 @@ public class Tamagotchi extends Application {
     public void start(Stage primaryStage) {
         homeScene = new HomeSceneOrganizer(primaryStage);
         
-        scene = new Scene(homeScene.getRoot(), 800, 600);
+        scene = new Scene(homeScene.getRoot(), 900, 600);
 //        scene.getStylesheets().add("style.css");
         primaryStage.setTitle("Virtual Pet");
         primaryStage.setScene(scene);
         primaryStage.setFullScreen(false);
-        primaryStage.setResizable(true);
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 

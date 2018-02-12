@@ -5,6 +5,7 @@
  */
 package tamagotchi;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import javafx.scene.layout.Pane;
 
@@ -12,7 +13,9 @@ import javafx.scene.layout.Pane;
  *
  * @author USER
  */
-class Player {
+class Player implements Serializable {
+    private static final long serialVersionUID = 2L;
+    
     private Pet pet;
     private String username;
     
