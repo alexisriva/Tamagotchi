@@ -22,5 +22,5 @@ public final class Constants {
     public static String POOPIMGSRC = "/tamagotchi/Poop.png";
     public static String CHESTIMGSRC = "/tamagotchi/chest.png";
     public static String BOWIMGSRC = "/tamagotchi/bow.png";
-    public static String ARROWIMGSRC = "/tamagotchi/arrow.jpg";
+    public static String ARROWIMGSRC = "/tamagotchi/arrow.png";
 }

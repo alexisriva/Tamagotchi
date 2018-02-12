@@ -38,6 +38,7 @@ public class TreasureChest {
         chestView.setTranslateX(ejeX);
         imgPane.getChildren().add(chestView);
         rootPane.getChildren().add(imgPane);
+        System.out.println("Creado");
         
         Thread hilo = new Thread(() -> {
             try {

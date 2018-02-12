@@ -81,6 +81,9 @@ public class Flecha implements Runnable {
             }
             else if (chest instanceof PenaltyChest ){
                 this.pet.setMoney((this.pet.getMoney()- ((PenaltyChest) chest).money)*this.multiplier);
+                    if(this.pet.getMoney()<0){
+                    this.pet.setMoney(0);
+                }
                 this.arcoView.setVisible(false);
                 ((PenaltyChest) chest).chestView.setVisible(false);
                 ((PenaltyChest) chest).chestView.setTranslateY(605);
@@ -94,12 +97,13 @@ public class Flecha implements Runnable {
                 System.out.println(((MultiplierChest) chest).description);
             }
             
-            else{
-                this.pet.setCondicion(false);
+            else if (chest instanceof BombChest ){
                 this.arcoView.setVisible(false);
-                chest.chestView.setTranslateY(605);
-                chest.chestView.setVisible(false);
-                System.out.println(chest.description);
+                ((BombChest) chest).chestView.setVisible(false);
+                ((BombChest) chest).chestView.setTranslateY(605);
+               this.pet.setCondicion(false);
+                System.out.println("Game Over");
+                Tamagotchi.returnGameScene();
             }
             
 

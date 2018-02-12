@@ -15,6 +15,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.scene.control.Button;
 
 /**
  *
@@ -30,14 +31,17 @@ public class MiniGameOrganizer {
     private Label nombre;
     public Label descripcion;
     private Label dinero;
+    private boolean condicion;
+    private Button goBack;
 
     public MiniGameOrganizer() {
         this.tesoros = new LinkedList<>();
         root = new BorderPane();
         pet = PickerSceneOrganizer.getPet();
-        nombre = new Label(pet.getName());
+        nombre = new Label("Pet: "+pet.getName());
         descripcion = new Label("");
-        dinero = new Label("" + pet.getMoney());
+        dinero = new Label("Dinero: " + pet.getMoney());
+ 
         HBox top = new HBox();
         top.getChildren().addAll(nombre, descripcion, dinero);
         top.setSpacing(100);
@@ -45,12 +49,15 @@ public class MiniGameOrganizer {
         middle = new Pane();
         bow = new Arco(middle, this.tesoros);
         root.setCenter(middle);
-        this.setUpTreasures(this.pet.isCondicion());
+        this.root.setStyle("-fx-background-image: url(/tamagotchi/background_mini.png);"
+                + "-fx-background-position: center center; ");
+        this.condicion=this.pet.isCondicion();
+        this.setUpTreasures(this.condicion);
         this.controlGame();
         middle.setFocusTraversable(true);
         middle.setOnMouseClicked((event) -> {
             bow.shoot(middle);
-            System.out.println("Click");
+            
         });
         middle.setOnKeyPressed((event) -> {
             if (event.getCode() == KeyCode.RIGHT && this.bow.getArcoView().getTranslateX() < 700) {
@@ -59,6 +66,10 @@ public class MiniGameOrganizer {
             } else if (event.getCode() == KeyCode.LEFT && this.bow.getArcoView().getTranslateX() > 20) {
                 this.bow.getArcoView().setTranslateX(this.bow.getArcoView().getTranslateX() + 40 * -1);
 
+            }
+            else if(event.getCode() == KeyCode.ESCAPE) {
+                Tamagotchi.returnGameScene();
+                
             }
         });
 
@@ -72,32 +83,30 @@ public class MiniGameOrganizer {
     }
 
     public void setUpTreasures(boolean condicion) {
-        Thread create = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (condicion) {
-                    try {
-                        Platform.runLater(() -> {
-                            int randomNum = ThreadLocalRandom.current().nextInt(0, 100 + 1);
-                            if (randomNum >= 0 && randomNum < 45) {
-                                TreasureChest tesoropunto = new PointChest(middle);
-                                MiniGameOrganizer.this.tesoros.add(tesoropunto);
-                            } else if (randomNum >= 45 && randomNum < 70) {
-                                TreasureChest tesoroMultiplier = new MultiplierChest(middle);
-                                MiniGameOrganizer.this.tesoros.add(tesoroMultiplier);
-                            } else if (randomNum >= 70 && randomNum < 90) {
-                                TreasureChest tesoroPenalty = new PenaltyChest(middle);
-                                MiniGameOrganizer.this.tesoros.add(tesoroPenalty);
-                            } else if (randomNum >= 90 && randomNum < 100) {
-                                TreasureChest tesoroBomb = new BombChest(middle);
-                                MiniGameOrganizer.this.tesoros.add(tesoroBomb);
-                            }
-                        });
-
-                        Thread.sleep(9000);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(MiniGameOrganizer.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+        Thread create = new Thread(() -> {
+            while (condicion) {
+                try {
+                    
+                    Platform.runLater(() -> {
+                        int randomNum = ThreadLocalRandom.current().nextInt(0, 100 + 1);
+                        if (randomNum >= 0 && randomNum < 45) {
+                            TreasureChest tesoropunto = new PointChest(middle);
+                            MiniGameOrganizer.this.tesoros.add(tesoropunto);
+                        } else if (randomNum >= 45 && randomNum < 70) {
+                            TreasureChest tesoroMultiplier = new MultiplierChest(middle);
+                            MiniGameOrganizer.this.tesoros.add(tesoroMultiplier);
+                        } else if (randomNum >= 70 && randomNum < 90) {
+                            TreasureChest tesoroPenalty = new PenaltyChest(middle);
+                            MiniGameOrganizer.this.tesoros.add(tesoroPenalty);
+                        } else if (randomNum >= 90 && randomNum < 100) {
+                            TreasureChest tesoroBomb = new BombChest(middle);
+                            MiniGameOrganizer.this.tesoros.add(tesoroBomb);
+                        }
+                    });
+                    
+                    Thread.sleep(9000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(MiniGameOrganizer.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -112,9 +121,9 @@ public class MiniGameOrganizer {
                 while (MiniGameOrganizer.this.pet.isCondicion()) {
                     try {
                         Platform.runLater(() -> {
-                            MiniGameOrganizer.this.nombre.setText(pet.getName());
-                            MiniGameOrganizer.this.dinero.setText("" + pet.getMoney());
-                            
+                            MiniGameOrganizer.this.nombre.setText("Pet: "+pet.getName());
+                            MiniGameOrganizer.this.dinero.setText("Dinero: " + pet.getMoney());
+                            MiniGameOrganizer.this.condicion= MiniGameOrganizer.this.pet.isCondicion();
                         });
                         Thread.sleep(500);
                     } catch (InterruptedException ex) {
