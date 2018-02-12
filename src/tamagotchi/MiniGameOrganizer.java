@@ -25,6 +25,7 @@ public class MiniGameOrganizer {
     private LinkedList<TreasureChest> tesoros;
     private Pet pet;
     private Arco bow;
+    private Pane middle;
     
     public MiniGameOrganizer() {
         root = new BorderPane();
@@ -36,17 +37,19 @@ public class MiniGameOrganizer {
         top.getChildren().addAll(nombre, descripcion, dinero);
         root.setTop(top);
         
-        Pane middle = new Pane();
-        
+        middle = new Pane();
         
         bow = new Arco(middle, this.tesoros);
         root.setCenter(middle);
         
-        root.setOnMouseClicked((event) -> {
+        middle.setFocusTraversable(true); //ESTA ES LA FUNCION QUE TE DECIA
+        
+        middle.setOnMouseClicked((event) -> {
             bow.shoot(middle);
             System.out.println("Click");
         });
-        root.setOnKeyPressed((event) -> {
+        
+        middle.setOnKeyPressed((event) -> {
             if(event.getCode() == KeyCode.RIGHT){
                 System.out.println("Derecha");
             }
