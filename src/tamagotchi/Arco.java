@@ -29,7 +29,8 @@ public class Arco {
         arcoView.setFitWidth(100);
         arcoView.setTranslateX(500);
         arcoView.setTranslateY(500);
-        rootPane.getChildren().add(arcoView);
+        this.arcoPane.getChildren().add(arcoView);
+        rootPane.getChildren().add(arcoPane);
     }
 
     /**

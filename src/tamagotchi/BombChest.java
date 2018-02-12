@@ -12,25 +12,13 @@ import javafx.scene.layout.Pane;
  * @author steevenrodriguez
  */
 public class BombChest extends TreasureChest {
-    private boolean stop;
+    
     
     public BombChest(Pane rootPane) {
         super(rootPane);
-        this.stop=true;
+        this.condicion=false;
     }
 
-    /**
-     * @return the stop
-     */
-    public boolean isStop() {
-        return stop;
-    }
-
-    /**
-     * @param stop the stop to set
-     */
-    public void setStop(boolean stop) {
-        this.stop = stop;
-    }
+   
     
 }

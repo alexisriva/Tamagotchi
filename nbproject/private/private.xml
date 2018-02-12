@@ -3,8 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/steevenrodriguez/Desktop/Tamagotchi/src/tamagotchi/Tamagotchi.java</file>
+            <file>file:/Users/steevenrodriguez/Desktop/Tamagotchi/src/tamagotchi/Pet.java</file>
+            <file>file:/Users/steevenrodriguez/Desktop/Tamagotchi/src/tamagotchi/BombChest.java</file>
+            <file>file:/Users/steevenrodriguez/Desktop/Tamagotchi/src/tamagotchi/PenaltyChest.java</file>
             <file>file:/Users/steevenrodriguez/Desktop/Tamagotchi/src/tamagotchi/Flecha.java</file>
+            <file>file:/Users/steevenrodriguez/Desktop/Tamagotchi/src/tamagotchi/TreasureChest.java</file>
             <file>file:/Users/steevenrodriguez/Desktop/Tamagotchi/src/tamagotchi/Arco.java</file>
             <file>file:/Users/steevenrodriguez/Desktop/Tamagotchi/src/tamagotchi/MiniGameOrganizer.java</file>
         </group>

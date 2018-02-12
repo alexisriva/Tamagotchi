@@ -8,12 +8,13 @@ package tamagotchi;
 import java.util.LinkedList;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import java.util.Random;
-
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
 
 /**
  *
@@ -26,38 +27,41 @@ public class MiniGameOrganizer {
     private Pet pet;
     private Arco bow;
     private Pane middle;
-    
+    private Label nombre;
+    public Label descripcion;
+    private Label dinero;
+
     public MiniGameOrganizer() {
+        this.tesoros = new LinkedList<>();
         root = new BorderPane();
-        pet = GameSceneOrganizer.getPet();
-        Label nombre = new Label(pet.getName());
-        Label descripcion = new Label("");
-        Label dinero = new Label("" + pet.getMoney());
+        pet = PickerSceneOrganizer.getPet();
+        nombre = new Label(pet.getName());
+        descripcion = new Label("");
+        dinero = new Label("" + pet.getMoney());
         HBox top = new HBox();
         top.getChildren().addAll(nombre, descripcion, dinero);
+        top.setSpacing(100);
         root.setTop(top);
-        
         middle = new Pane();
-        
         bow = new Arco(middle, this.tesoros);
         root.setCenter(middle);
-        
-        middle.setFocusTraversable(true); //ESTA ES LA FUNCION QUE TE DECIA
-        
+        this.setUpTreasures(this.pet.isCondicion());
+        this.controlGame();
+        middle.setFocusTraversable(true);
         middle.setOnMouseClicked((event) -> {
             bow.shoot(middle);
             System.out.println("Click");
         });
-        
         middle.setOnKeyPressed((event) -> {
-            if(event.getCode() == KeyCode.RIGHT){
-                System.out.println("Derecha");
-            }
-            else if (event.getCode() == KeyCode.LEFT){
-                System.out.println("Izquierda");
+            if (event.getCode() == KeyCode.RIGHT && this.bow.getArcoView().getTranslateX() < 700) {
+                this.bow.getArcoView().setTranslateX(this.bow.getArcoView().getTranslateX() + 40);
+
+            } else if (event.getCode() == KeyCode.LEFT && this.bow.getArcoView().getTranslateX() > 20) {
+                this.bow.getArcoView().setTranslateX(this.bow.getArcoView().getTranslateX() + 40 * -1);
+
             }
         });
-    
+
     }
 
     /**
@@ -66,21 +70,64 @@ public class MiniGameOrganizer {
     public BorderPane getRoot() {
         return root;
     }
-    //NO ESTA LISTO
-    public TreasureChest randomlyCreate(java.lang.Class<? extends TreasureChest>... classes){
-        TreasureChest chest = randomlyCreate(
-                PenaltyChest.class,
-                PointChest.class,
-                BombChest.class,
-                MultiplierChest.class
-        );
-        
-        return chest;
+
+    public void setUpTreasures(boolean condicion) {
+        Thread create = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (condicion) {
+                    try {
+                        Platform.runLater(() -> {
+                            int randomNum = ThreadLocalRandom.current().nextInt(0, 100 + 1);
+                            if (randomNum >= 0 && randomNum < 45) {
+                                TreasureChest tesoropunto = new PointChest(middle);
+                                MiniGameOrganizer.this.tesoros.add(tesoropunto);
+                            } else if (randomNum >= 45 && randomNum < 70) {
+                                TreasureChest tesoroMultiplier = new MultiplierChest(middle);
+                                MiniGameOrganizer.this.tesoros.add(tesoroMultiplier);
+                            } else if (randomNum >= 70 && randomNum < 90) {
+                                TreasureChest tesoroPenalty = new PenaltyChest(middle);
+                                MiniGameOrganizer.this.tesoros.add(tesoroPenalty);
+                            } else if (randomNum >= 90 && randomNum < 100) {
+                                TreasureChest tesoroBomb = new BombChest(middle);
+                                MiniGameOrganizer.this.tesoros.add(tesoroBomb);
+                            }
+                        });
+
+                        Thread.sleep(9000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(MiniGameOrganizer.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        });
+        create.setDaemon(true);
+        create.start();
     }
-    public void setUpTreasures(){
-          
+
+    public void controlGame() {
+        Thread control = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (MiniGameOrganizer.this.pet.isCondicion()) {
+                    try {
+                        Platform.runLater(() -> {
+                            MiniGameOrganizer.this.nombre.setText(pet.getName());
+                            MiniGameOrganizer.this.dinero.setText("" + pet.getMoney());
+                            
+                        });
+                        Thread.sleep(500);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(MiniGameOrganizer.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+
+        });
+        control.setDaemon(true);
+        control.start();
         
         
     }
-    
+
 }
