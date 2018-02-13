@@ -14,17 +14,17 @@ import javafx.scene.layout.VBox;
 
 /**
  *
- * @author USER
+ * @author steevenrodriguez
  */
-public class FoodShopOrganizer {
+public class FoodLoadShopOrganizer {
     private BorderPane root;
     
-    public FoodShopOrganizer() {
+    public FoodLoadShopOrganizer() {
         root = new BorderPane();
         
         Button back = new Button("Back");
         back.setOnMouseClicked((event) -> {
-            Tamagotchi.returnGameScene();
+            Tamagotchi.returnLoadGameScene();
         });
         back.setAlignment(Pos.CENTER_LEFT);
         VBox container = new VBox();
@@ -34,13 +34,13 @@ public class FoodShopOrganizer {
         Label pizza = new Label("Pizza");
         Button buy = new Button("Buy");
         buy.setOnMouseClicked((event) -> { 
-            GameSceneOrganizer.getPlayer().buyFood(20); // valor de prueba
+            LoadGameOrganizer.getPlayer().buyFood(20); // valor de prueba
             System.out.println("Compra exitosa");
         });
         Label lasagna = new Label("Lasagna");
         Button buyLasagna = new Button("Buy");
         buyLasagna.setOnMouseClicked((event) -> {
-            GameSceneOrganizer.getPlayer().buyFood(40);
+            LoadGameOrganizer.getPlayer().buyFood(40);
         });
         HBox innerContainer2 = new HBox();
         innerContainer2.setAlignment(Pos.CENTER);

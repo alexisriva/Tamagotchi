@@ -32,10 +32,11 @@ public class HomeSceneOrganizer {
         container.setAlignment(Pos.CENTER);
         container.setSpacing(20);
         
-        Button btnPlay = new Button("Play");
+        Button btnPlay = new Button("New Game");
+        Button btnLoad = new Button("Load Game");
         Button btnQuit = new Button("Quit");
         
-        container.getChildren().addAll(game, btnPlay, btnQuit);
+        container.getChildren().addAll(game, btnPlay,btnLoad, btnQuit);
         
         btnPlay.setOnMouseClicked((event) -> {
             Tamagotchi.changePickerScene();
@@ -43,6 +44,9 @@ public class HomeSceneOrganizer {
         
         btnQuit.setOnMouseClicked( (event) -> {
             stage.close();
+        });
+        btnLoad.setOnMouseClicked((event) -> {
+            Tamagotchi.changeLoadGameScene();
         });
         
         root.setOnKeyPressed((event) -> {

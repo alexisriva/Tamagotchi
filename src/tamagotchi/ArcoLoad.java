@@ -14,12 +14,12 @@ import javafx.scene.layout.Pane;
  *
  * @author steevenrodriguez
  */
-public class Arco {
+public class ArcoLoad {
     private Pane arcoPane;
     private LinkedList<TreasureChest> tesoro;
     private ImageView arcoView;
     
-    public Arco (Pane rootPane, LinkedList<TreasureChest> tesoro){
+    public ArcoLoad (Pane rootPane, LinkedList<TreasureChest> tesoro){
         this.tesoro=new LinkedList<>();
         this.tesoro= tesoro;
         arcoPane= new Pane();
@@ -47,7 +47,7 @@ public class Arco {
         this.arcoPane = arcoPane;
     }
     public void shoot(Pane rootPane,Pet pet){
-        Thread shootThread = new Thread((Runnable) new Flecha(rootPane,this,this.tesoro,pet));
+        Thread shootThread = new Thread((Runnable) new FlechaLoad(rootPane,this,this.tesoro,pet));
         shootThread.setDaemon(true);
         shootThread.start();
         
@@ -60,5 +60,4 @@ public class Arco {
     public ImageView getArcoView() {
         return arcoView;
     }
-    
 }

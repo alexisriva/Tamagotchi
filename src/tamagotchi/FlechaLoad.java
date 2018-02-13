@@ -16,7 +16,7 @@ import javafx.scene.layout.Pane;
  *
  * @author steevenrodriguez
  */
-public class Flecha implements Runnable {
+public class FlechaLoad implements Runnable {
     private Pane flechaPane;
     private Pet pet;
     private int multiplier;
@@ -25,7 +25,7 @@ public class Flecha implements Runnable {
     private ImageView arcoView;
     
     
-    public Flecha(Pane rootPane,Arco arco, LinkedList<TreasureChest> tesoro,Pet pet){
+    public FlechaLoad(Pane rootPane,ArcoLoad arco, LinkedList<TreasureChest> tesoro,Pet pet){
         this.tesoros=new LinkedList<>();
         this.tesoros=tesoro;
         this.multiplier=1;
@@ -51,9 +51,9 @@ public class Flecha implements Runnable {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                      Flecha.this.flechaPane.setTranslateY(Flecha.this.flechaPane.getTranslateY()+sub);
-                      Flecha.this.tesoros.forEach((TreasureChest chest) -> {
-                          Flecha.this.checkColision(chest);
+                      FlechaLoad.this.flechaPane.setTranslateY(FlechaLoad.this.flechaPane.getTranslateY()+sub);
+                      FlechaLoad.this.tesoros.forEach((TreasureChest chest) -> {
+                          FlechaLoad.this.checkColision(chest);
                           
                       });
                     }
@@ -101,12 +101,11 @@ public class Flecha implements Runnable {
                 ((BombChest) chest).chestView.setVisible(false);
                 ((BombChest) chest).chestView.setTranslateY(605);
                 System.out.println("Game Over");
-                Tamagotchi.returnGameScene();
+                Tamagotchi.returnLoadGameScene();
             }
             
 
         }
 
     }
-    
 }

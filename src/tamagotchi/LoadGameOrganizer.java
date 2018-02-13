@@ -5,8 +5,10 @@
  */
 package tamagotchi;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.LinkedList;
 import java.util.Random;
@@ -16,6 +18,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -25,10 +28,9 @@ import javafx.scene.layout.VBox;
 
 /**
  *
- * @author USER
+ * @author steevenrodriguez
  */
-class GameSceneOrganizer implements Runnable {
-
+public class LoadGameOrganizer implements Runnable {
     private BorderPane root;
     private static Player player;
     private static Pet pet;
@@ -41,21 +43,12 @@ class GameSceneOrganizer implements Runnable {
     private Label inventory;
     private LinkedList<Pane> poopStack = new LinkedList<>();
 
-    public GameSceneOrganizer() {
+    public LoadGameOrganizer() {
         root = new BorderPane();
         root.setId("rootGame");
-        
-        pet = PickerSceneOrganizer.getPet();
-        petContainer = new Pane();
-        pet.setRoot(petContainer);
-        this.setUpPlayerInfo();
-        this.setUpPetInfo();
-        this.setUpPetAnimation();
-        setUpPlayerActionButtons();
-
+        deserializeGame();
         this.root.setStyle("-fx-background-image: url(/tamagotchi/house.jpg);"
                 + "-fx-background-position: center center; ");
-
         root.setBottom(petContainer);
     }
 
@@ -66,7 +59,7 @@ class GameSceneOrganizer implements Runnable {
     }
 
     public void setUpPlayerInfo() {
-        player = PickerSceneOrganizer.getPlayer();
+//        player = PickerSceneOrganizer.getPlayer();
         GridPane playerInfo = new GridPane();
         playerInfo.setPadding(new Insets(10));
         playerInfo.getColumnConstraints().addAll(new ColumnConstraints(160),
@@ -76,7 +69,7 @@ class GameSceneOrganizer implements Runnable {
         HBox btns = new HBox();
         Button shop = new Button("Shop");
         shop.setOnMouseClicked((event) -> {
-            Tamagotchi.changeShopScene();
+            Tamagotchi.changeLoadShopScene();
         });
         btns.getChildren().add(shop);
 
@@ -122,7 +115,7 @@ class GameSceneOrganizer implements Runnable {
         Button play = new Button("Play");
         play.setOnMouseClicked((event) -> {
             player.playWithPet();
-            Tamagotchi.changeMiniGameScene();
+            Tamagotchi.changeMiniLoadGameScene();
         });
         
         playerActions.getChildren().addAll(clean, feed, play);
@@ -196,5 +189,39 @@ class GameSceneOrganizer implements Runnable {
         }
     }
     
-    
+    public void deserializeGame() {
+        try {
+            FileInputStream petFile = new FileInputStream("pet.ser");
+            FileInputStream playerFile = new FileInputStream("player.ser");
+            
+            ObjectInputStream petIn = new ObjectInputStream(petFile);
+            pet = (Pet) petIn.readObject();
+            Pane p = new Pane();
+            pet.setPane(p);
+            pet.setImageView(pet.setUpPetAvatar(new Image(Constants.PETIMGSRC)), p);
+            petIn.close();
+            petFile.close();
+            
+            ObjectInputStream playerIn = new ObjectInputStream(playerFile);
+            player = (Player) playerIn.readObject();
+            player.setPet(pet);
+            playerIn.close();
+            playerFile.close();
+            
+            System.out.println("Objects deserialized");
+        } catch (IOException i) {
+            System.out.println("Picker scene");
+            pet = PickerSceneOrganizer.getPet();
+            player = PickerSceneOrganizer.getPlayer();
+        } catch (ClassNotFoundException c) {
+            c.printStackTrace();
+        } finally {
+            petContainer = new Pane();
+            pet.setRoot(petContainer);
+        
+            setUpPetInfo();
+            setUpPlayerInfo();
+            setUpPlayerActionButtons();
+        }
+    }
 }

@@ -56,6 +56,10 @@ public class Pet implements Runnable, Serializable {
         pet.getChildren().add(imgView);
 //        System.out.println(this.birthDate);
     }
+
+    Pet() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     public ImageView setUpPetAvatar(Image img) {
         ImageView imgView = new ImageView(img);
@@ -80,13 +84,13 @@ public class Pet implements Runnable, Serializable {
     public void run() {
         while (true) {
             try {
-                for (int i=1; i<=70; i++) {
+                for (int i=1; i<=37; i++) {
                     Platform.runLater(() -> { moveRight(); });
                     Thread.sleep(Constants.SPEED);
                 }
                 rotate(180);
                 Thread.sleep(Constants.SPEED);
-                for (int i=1; i<=70; i++) {
+                for (int i=1; i<=40; i++) {
                     Platform.runLater(() -> { moveLeft(); });
                     Thread.sleep(Constants.SPEED);
                 }

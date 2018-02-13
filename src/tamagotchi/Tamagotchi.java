@@ -19,9 +19,13 @@ public class Tamagotchi extends Application {
     private static PickerSceneOrganizer pickerScene;
     private static GameSceneOrganizer gameScene;
     private static FoodShopOrganizer shopScene;
+    private static FoodLoadShopOrganizer shopScene2;
     private static MiniGameOrganizer miniGameScene;
+    private static MiniLoadGameOrganizer miniGameScene2;
+    private static LoadGameOrganizer loadGameScene;
     private static Scene scene;
     private static Thread game;
+    private static Thread gameLoad;
     
     @Override
     public void start(Stage primaryStage) {
@@ -67,5 +71,23 @@ public class Tamagotchi extends Application {
         miniGameScene = new MiniGameOrganizer();
         scene.setRoot(miniGameScene.getRoot());
     }
-    
+    public static void changeLoadGameScene() {
+        loadGameScene = new LoadGameOrganizer();
+        scene.setRoot(loadGameScene.getRoot());
+        gameLoad = new Thread(loadGameScene);
+        gameLoad.setDaemon(true);
+        gameLoad.start();
+            
+    }
+    public static void returnLoadGameScene() {
+        scene.setRoot(loadGameScene.getRoot());
+    }
+    public static void changeLoadShopScene() {
+        shopScene2 = new FoodLoadShopOrganizer();
+        scene.setRoot(shopScene2.getRoot());
+    }
+    public static void changeMiniLoadGameScene(){
+        miniGameScene2 = new MiniLoadGameOrganizer();
+        scene.setRoot(miniGameScene2.getRoot());
+    }
 }

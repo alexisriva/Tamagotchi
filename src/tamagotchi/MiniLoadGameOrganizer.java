@@ -6,27 +6,26 @@
 package tamagotchi;
 
 import java.util.LinkedList;
-import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 
 /**
  *
  * @author steevenrodriguez
  */
-public class MiniGameOrganizer {
-
+public class MiniLoadGameOrganizer {
     private BorderPane root;
     private LinkedList<TreasureChest> tesoros;
     private Pet pet;
-    private Arco bow;
+    private ArcoLoad bow;
     private Pane middle;
     private Label nombre;
     public Label descripcion;
@@ -34,10 +33,10 @@ public class MiniGameOrganizer {
     private boolean condicion;
     private Button goBack;
 
-    public MiniGameOrganizer() {
+    public MiniLoadGameOrganizer() {
         this.tesoros = new LinkedList<>();
         root = new BorderPane();
-        pet = PickerSceneOrganizer.getPet();
+        pet = LoadGameOrganizer.getPet();
         nombre = new Label("Pet: "+pet.getName());
         descripcion = new Label("");
         dinero = new Label("Dinero: " + pet.getMoney());
@@ -47,7 +46,7 @@ public class MiniGameOrganizer {
         top.setSpacing(100);
         root.setTop(top);
         middle = new Pane();
-        bow = new Arco(middle, this.tesoros);
+        bow = new ArcoLoad(middle, this.tesoros);
         root.setCenter(middle);
         this.root.setStyle("-fx-background-image: url(/tamagotchi/background_mini.png);"
                 + "-fx-background-position: center center; ");
@@ -68,7 +67,7 @@ public class MiniGameOrganizer {
 
             }
             else if(event.getCode() == KeyCode.ESCAPE) {
-                Tamagotchi.returnGameScene();
+                Tamagotchi.returnLoadGameScene();
                 
             }
         });
@@ -91,16 +90,16 @@ public class MiniGameOrganizer {
                         int randomNum = ThreadLocalRandom.current().nextInt(0, 100 + 1);
                         if (randomNum >= 0 && randomNum < 45) {
                             TreasureChest tesoropunto = new PointChest(middle);
-                            MiniGameOrganizer.this.tesoros.add(tesoropunto);
+                            MiniLoadGameOrganizer.this.tesoros.add(tesoropunto);
                         } else if (randomNum >= 45 && randomNum < 70) {
                             TreasureChest tesoroMultiplier = new MultiplierChest(middle);
-                            MiniGameOrganizer.this.tesoros.add(tesoroMultiplier);
+                            MiniLoadGameOrganizer.this.tesoros.add(tesoroMultiplier);
                         } else if (randomNum >= 70 && randomNum < 90) {
                             TreasureChest tesoroPenalty = new PenaltyChest(middle);
-                            MiniGameOrganizer.this.tesoros.add(tesoroPenalty);
+                            MiniLoadGameOrganizer.this.tesoros.add(tesoroPenalty);
                         } else if (randomNum >= 90 && randomNum < 100) {
                             TreasureChest tesoroBomb = new BombChest(middle);
-                            MiniGameOrganizer.this.tesoros.add(tesoroBomb);
+                            MiniLoadGameOrganizer.this.tesoros.add(tesoroBomb);
                         }
                     });
                     
@@ -118,12 +117,12 @@ public class MiniGameOrganizer {
         Thread control = new Thread(new Runnable() {
             @Override
             public void run() {
-                while (MiniGameOrganizer.this.pet.isCondicion()) {
+                while (MiniLoadGameOrganizer.this.pet.isCondicion()) {
                     try {
                         Platform.runLater(() -> {
-                            MiniGameOrganizer.this.nombre.setText("Pet: "+pet.getName());
-                            MiniGameOrganizer.this.dinero.setText("Dinero: " + pet.getMoney());
-                            MiniGameOrganizer.this.condicion= MiniGameOrganizer.this.pet.isCondicion();
+                            MiniLoadGameOrganizer.this.nombre.setText("Pet: "+pet.getName());
+                            MiniLoadGameOrganizer.this.dinero.setText("Dinero: " + pet.getMoney());
+                            MiniLoadGameOrganizer.this.condicion= MiniLoadGameOrganizer.this.pet.isCondicion();
                         });
                         Thread.sleep(500);
                     } catch (InterruptedException ex) {
@@ -138,5 +137,4 @@ public class MiniGameOrganizer {
         
         
     }
-
 }
